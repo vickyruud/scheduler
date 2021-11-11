@@ -47,8 +47,7 @@ const appointmentArray = Object.values(appointments).map((appointment) => {
   return (
     <Appointment
     key = {appointment.id}
-    time = {appointment.time}
-    interview = {appointment.interview}  />
+    {...appointment} />
 
   )
 })
@@ -96,6 +95,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {appointmentArray}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
