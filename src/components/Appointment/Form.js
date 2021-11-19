@@ -12,8 +12,6 @@ export default function Form(props) {
     setInterviewer(null);
   }
 
-  
-
   const submitHandler = (e) => {
     e.preventDefault();
   }
