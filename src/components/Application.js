@@ -41,7 +41,7 @@ export default function Application(props) {
         interviewers: res[2].data
       }))
     })
-    .catch(e => console.log(e.message));
+    
       
   },[])
   
@@ -64,18 +64,19 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    axios.put(`/api/appointments/${id}`, appointment)
+    return axios.put(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState({
           ...state,
           appointments: appointments
         })
       })
+      
 
   }
 
   function cancelInterview (id) {
-    axios.delete(`/api/appointments/${id}`)
+    return axios.delete(`/api/appointments/${id}`)
       .then(() => {
         setState({
           ...state
