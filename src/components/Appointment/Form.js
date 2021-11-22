@@ -6,12 +6,7 @@ export default function Form(props) {
 
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-
-  const reset = () => {
-    setStudent("");
-    setInterviewer(null);
-  }
-
+  
   const submitHandler = (e) => {
     e.preventDefault();
   }

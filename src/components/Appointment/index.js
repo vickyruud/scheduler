@@ -42,12 +42,7 @@ export default function Appointment(props) {
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch(error => transition(ERROR_SAVE, true));
-   
-    //set timer to allow the saving transition to be displayed
-    // setTimeout(() => {
-    //   transition(SHOW);      
-    // }, 1000);
+      .catch(error => transition(ERROR_SAVE, true));  
   }
 
   function interviewCancellation(interview) {
