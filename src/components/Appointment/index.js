@@ -14,7 +14,7 @@ import Error from "./Error";
 
 
 export default function Appointment(props) {
-
+  //declare variables for each mode
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -25,13 +25,13 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
-
+  //import visual mode changes functions with default state as show or empty
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
 
-
+// saves the interview and transitions modes as necessary
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -44,13 +44,13 @@ export default function Appointment(props) {
       .then(() => transition(SHOW))
       .catch(error => transition(ERROR_SAVE, true));  
   }
-
+  // cancels interview and transitions to delete view
   function interviewCancellation(interview) {
     interview = null;
     transition(CONFIRM)
      
   } 
-
+  //deletes interview
   function destroy() {
 
     transition(DELETING, true);
@@ -59,7 +59,7 @@ export default function Appointment(props) {
       .catch(error => transition(ERROR_DELETE, true));
     
   }
-  
+  //returns the appointment list with different views based on modes
   return (
     <>
     <article className="appointment">
