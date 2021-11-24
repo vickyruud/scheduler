@@ -7,7 +7,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
-
+  //import application data functions
   const {
     state,
     setDay,
@@ -16,7 +16,7 @@ export default function Application(props) {
   } = useApplicationData();
   
   
-  
+  //generate interviewers for the day
   let interviewersForTheDay = [];
   
   interviewersForTheDay = getInterviewersForDay(state, state.day);
@@ -27,7 +27,7 @@ export default function Application(props) {
   
   //generate daily appointments 
   dailyAppointments = getAppointmentsForDay(state, state.day);
-
+  //generate appointment Array
   const appointmentArray = Object.values(dailyAppointments).map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return (
@@ -45,7 +45,7 @@ export default function Application(props) {
   
  
 
-   
+    //generate the application 
     return (
       <main className="layout">
       <section className="sidebar">

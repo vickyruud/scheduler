@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import "components/DayListItem.scss"
 
-
+//creates each day list item
 export default function DayListItem(props) {
 
   const formatSpots = (spots) => {
