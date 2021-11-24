@@ -35,37 +35,33 @@ export default function useApplicationData () {
     })  
   },[state]);
 
-
   //update spots
+
   function updateSpots () {
-  
     let spotsAvailable = 5;
 
-    for (let day in state.days ){
-      if (state.days[day].name === state.day) {
-        for (let id of state.days[day].appointments) {
-          if (state.appointments[id].interview !== null) {
+    for (let day in state.days) {
+      if (day.name === state.day){
+        for(let id of state.days[day].appointments) {
+          if(state.appointments[id].interview !== null ) {
             spotsAvailable--;
           }
         }
-
       }
-
     }
+
     return state.days.map(day => {
       if (day.name !== state.day) {
-        return day
-      } else {
-        return {
-          ...day,
-          spots: spotsAvailable
-        };        
+        return day;
       }
+      return {
+        ...day,
+        spots: spotsAvailable
+      };
     });
-  
-  
   };
 
+  
   //book interview
 
   function bookInterview(id, interview) {

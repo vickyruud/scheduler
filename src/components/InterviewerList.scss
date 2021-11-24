@@ -4,10 +4,15 @@
   &__header {
     color: $white;
     margin-bottom: 0.5rem;
+   
   }
 
   &__list {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row-wrap;
+    
   }
 }
+
+
+
