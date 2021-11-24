@@ -59,7 +59,7 @@ export default function Appointment(props) {
       .catch(error => transition(ERROR_DELETE, true));
     
   }
-  //returns the appointment list with different views based on modes
+  //returns the appointment list with different view based on modes
   return (
     <>
     <article className="appointment">
