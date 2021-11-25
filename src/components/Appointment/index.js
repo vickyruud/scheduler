@@ -24,6 +24,9 @@ export default function Appointment(props) {
   const EDIT = "EDIT";
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
+  const ERROR_SAVE_NAME = "ERROR_SAVE_NAME";
+  const ERROR_SAVE_INTERVIEWER = "ERROR_SAVE_INTERVIEWER";
+
 
   //import visual mode changes functions with default state as show or empty
   const { mode, transition, back } = useVisualMode(
@@ -33,16 +36,25 @@ export default function Appointment(props) {
 
 // saves the interview and transitions modes as necessary
   function save(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer
-    };
-    transition(SAVING);
+      if (name && interviewer){
+        const interview = {
+        student: name,
+        interviewer
+      };
+      transition(SAVING);
 
-    props
-      .bookInterview(props.id, interview)
-      .then(() => transition(SHOW))
-      .catch(error => transition(ERROR_SAVE, true));  
+      props
+        .bookInterview(props.id, interview)
+        .then(() => transition(SHOW))
+        .catch(error => transition(ERROR_SAVE, true));  
+    } else if (!name){
+      transition(ERROR_SAVE_NAME);
+    }
+    else if (!interviewer) {
+      transition(ERROR_SAVE_INTERVIEWER);
+    } else {
+      transition(ERROR_SAVE);
+    }
   }
   // cancels interview and transitions to delete view
   function interviewCancellation(interview) {
@@ -73,6 +85,10 @@ export default function Appointment(props) {
     {mode === EDIT && <Form student = {props.interview["student"]}  interviewer = {props.interview.interviewer.id} interviewers = {props.interviewers} cancel = {() => transition(SHOW)} onSave = {save} />}
     {mode === ERROR_SAVE && <Error message = "Could not save" onClose = {() => back()}/>}
     {mode === ERROR_DELETE && <Error message = "Could not delete" onClose = {() => back()}/>}
+    {mode === ERROR_SAVE_NAME && <Error message = "Please enter a name before saving" onClose = {() => back()}/>}
+    {mode === ERROR_SAVE_INTERVIEWER && <Error message = "Please select an interviewer before saving" onClose = {() => back()}/>}
+
+
 
     </article> 
     
