@@ -26,6 +26,7 @@ export default function Appointment(props) {
   const ERROR_DELETE = "ERROR_DELETE";
   const ERROR_SAVE_NAME = "ERROR_SAVE_NAME";
   const ERROR_SAVE_INTERVIEWER = "ERROR_SAVE_INTERVIEWER";
+  const ERROR_SAVE_NAME_INTERVIEWER = "ERROR_SAVE_NAME_INTERVIEWER"
 
 
   //import visual mode changes functions with default state as show or empty
@@ -47,11 +48,13 @@ export default function Appointment(props) {
         .bookInterview(props.id, interview)
         .then(() => transition(SHOW))
         .catch(error => transition(ERROR_SAVE, true));  
-    } else if (!name){
-      transition(ERROR_SAVE_NAME);
+    } else if (!name && !interviewer){
+      transition(ERROR_SAVE_NAME_INTERVIEWER)
     }
     else if (!interviewer) {
       transition(ERROR_SAVE_INTERVIEWER);
+    } else if (!name) {
+      transition(ERROR_SAVE_NAME);
     } else {
       transition(ERROR_SAVE);
     }
@@ -85,8 +88,9 @@ export default function Appointment(props) {
     {mode === EDIT && <Form student = {props.interview["student"]}  interviewer = {props.interview.interviewer.id} interviewers = {props.interviewers} cancel = {() => transition(SHOW)} onSave = {save} />}
     {mode === ERROR_SAVE && <Error message = "Could not save" onClose = {() => back()}/>}
     {mode === ERROR_DELETE && <Error message = "Could not delete" onClose = {() => back()}/>}
-    {mode === ERROR_SAVE_NAME && <Error message = "Please enter a name before saving" onClose = {() => back()}/>}
-    {mode === ERROR_SAVE_INTERVIEWER && <Error message = "Please select an interviewer before saving" onClose = {() => back()}/>}
+    {mode === ERROR_SAVE_NAME && <Error message = "Please enter a name before confirming" onClose = {() => back()}/>}
+    {mode === ERROR_SAVE_INTERVIEWER && <Error message = "Please select an interviewer before confirming" onClose = {() => back()}/>}
+    {mode === ERROR_SAVE_NAME_INTERVIEWER && <Error message = "Please enter a name and select an interviewer before confirming" onClose = {() => back()}/>}
 
 
 

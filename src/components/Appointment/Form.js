@@ -4,9 +4,12 @@ import InterviewerList from "components/InterviewerList";
 
 export default function Form(props) {
 
+
+  //changes the state of student and interviewer
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   
+  //prevents the form from submitting
   const submitHandler = (e) => {
     e.preventDefault();
   }
