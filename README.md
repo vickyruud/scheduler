@@ -19,6 +19,7 @@ https://github.com/lighthouse-labs/scheduler-api
 - The user can save the appointment and view the entire schedule of appointments on any day of the 
   week.
 - Appointments can also be edited or deleted. 
+- The number of spots available are displayed under each day
 
 ## Screenshots
 
