@@ -8,7 +8,7 @@ Interview Scheduler is a single-page application (SPA) that allows users to book
 3. Visit `http://localhost:8000/`
 
 ## Setting up the database server.
-Please navigate to the following link and follow the instructions to set up the server:
+Please navigate to the following link and follow the instructions to set up the database server:
 https://github.com/lighthouse-labs/scheduler-api
 
 ## Features
