@@ -19,3 +19,18 @@ https://github.com/lighthouse-labs/scheduler-api
 - The user can save the appointment and view the entire schedule of appointments on any day of the 
   week.
 - Appointments can also be edited or deleted. 
+
+## Screenshots
+
+### Scheduler day view
+!["Screenshot of Homepage"](https://github.com/vickyruud/scheduler/blob/master/public/images/scheduler.png)
+
+## Add Appointment
+
+!["Screenshot of Add Appointment"](https://github.com/vickyruud/scheduler/blob/master/public/images/new_appointment.png)
+
+## Delete confirmation
+
+!["Screenshot of Deleting"](https://github.com/vickyruud/scheduler/blob/master/public/images/deleting.png)
+
+
