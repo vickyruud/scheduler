@@ -58,7 +58,7 @@ export default function Appointment(props) {
   //returns the appointment list with different view based on modes
   return (
     <>
-      <article className="appointment">
+      <article className="appointment" data-testid="appointment">
         <Header time={props.time} />
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && props.interview && (
@@ -72,7 +72,7 @@ export default function Appointment(props) {
         {mode === CREATE && (
           <Form
             interviewers={props.interviewers}
-            cancel={() => transition(EMPTY)}
+            onCancel={() => transition(EMPTY)}
             onSave={save}
           />
         )}

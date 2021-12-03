@@ -18,14 +18,12 @@ export default function useApplicationData () {
   //useEffect to pull data from server and change state  
   useEffect(() => {
       
-    const getDays = axios.get('api/days');
-    const getAppointments = axios.get('api/appointments')
-    const getInterviewers = axios.get('api/interviewers')
+    const getDays = axios.get('/api/days');
+    const getAppointments = axios.get('/api/appointments')
+    const getInterviewers = axios.get('/api/interviewers')
 
-    
     Promise.all([getDays, getAppointments, getInterviewers])
     .then((res) => {
-
       setState(prev=> ({
         ...prev,
         days: res[0].data,
@@ -33,7 +31,7 @@ export default function useApplicationData () {
         interviewers: res[2].data
       }))
     })  
-  },[state]);
+  },[]);
 
   //update spots
 
