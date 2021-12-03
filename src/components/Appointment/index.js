@@ -90,7 +90,7 @@ export default function Appointment(props) {
             student={props.interview["student"]}
             interviewer={props.interview.interviewer.id}
             interviewers={props.interviewers}
-            cancel={() => transition(SHOW)}
+            onCancel={() => transition(SHOW)}
             onSave={save}
           />
         )}
