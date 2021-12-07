@@ -15,54 +15,29 @@ export default function useApplicationData () {
 
 
 
-  //useEffect to pull data from server and change state  
-  useEffect(() => {
-      
-    const getDays = axios.get('/api/days');
-    const getAppointments = axios.get('/api/appointments')
-    const getInterviewers = axios.get('/api/interviewers')
-
-    Promise.all([getDays, getAppointments, getInterviewers])
-    .then((res) => {
-      setState(prev=> ({
-        ...prev,
-        days: res[0].data,
-        appointments: res[1].data,
-        interviewers: res[2].data
-      }))
-    })  
-  },[]);
-
+  
   //update spots
 
-  function updateSpots () {
-    let spotsAvailable = 5;
-
-    for (let day in state.days) {
-      if (day.name === state.day){
-        for(let id of state.days[day].appointments) {
-          if(state.appointments[id].interview !== null ) {
-            spotsAvailable--;
-          }
+  function updateSpots(requestType) {
+    const daysObj = state.days.map(day => {
+      if (day.name === state.day) {
+        if (requestType === "bookAppointment") {
+          return { ...day, spots: day.spots - 1}
+        } else if (requestType === "Edit") {
+          return { ...day}
+        } else {
+          return { ...day, spots: day.spots + 1 };
         }
+      } else {
+        return { ...day }
       }
-    }
-
-    return state.days.map(day => {
-      if (day.name !== state.day) {
-        return day;
-      }
-      return {
-        ...day,
-        spots: spotsAvailable
-      };
     });
-  };
+    return daysObj;
+  }
 
-  
   //book interview
 
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, requestType) {
 
     const appointment = {
       ...state.appointments[id],
@@ -73,30 +48,91 @@ export default function useApplicationData () {
       ...state.appointments,
       [id]: appointment
     };
+    
+    
+    return axios.put(`/api/appointments/${id}`, appointment)
+      .then(() => {
+        const days = updateSpots("bookAppointment")
+        setState({
+          ...state,
+          appointments,
+          days
+        });
+      })
+      .catch((err) => console.log(err));
+      
 
+  };
+
+  //Edit interview
+
+  function editInterview(id, interview, requestType) {
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    
+    
     return axios.put(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState({
           ...state,
-          appointments: appointments
+          appointments,
         });
-        updateSpots();
       })
+      .catch((err) => console.log(err));
       
 
   };
 
   //cancel interview
 
-  function cancelInterview (id) {
+  function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => {
-        setState({
-          ...state
-        });
-        updateSpots();
-      })
+    .then(() => {
+      const days = updateSpots();
+      setState({
+        ...state,
+        appointments,
+        days
+      });
+    })
+    .catch((err) => console.log(err));
+    
   }
+  //useEffect to pull data from server and change state  
+  useEffect(() => {
+      
+    const getDays = axios.get('/api/days');
+    const getAppointments = axios.get('/api/appointments')
+    const getInterviewers = axios.get('/api/interviewers')
+
+    Promise.all([getDays, getAppointments, getInterviewers])
+      .then((res) => {
+        setState(prev=> ({
+        ...prev,
+        days: res[0].data,
+        appointments: res[1].data,
+        interviewers: res[2].data
+      }))
+    })  
+  },[]);
+
 
   
 
@@ -107,7 +143,8 @@ export default function useApplicationData () {
     state, 
     setDay,
     bookInterview,
-    cancelInterview
+    cancelInterview,
+    editInterview
   };
 
 

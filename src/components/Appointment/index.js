@@ -30,7 +30,6 @@ export default function Appointment(props) {
   );
 
   // saves the interview and transitions modes as necessary
-  // saves the interview and transitions modes as necessary
    function save(name, interviewer) {
     const interview = {
       student: name,
@@ -46,6 +45,18 @@ export default function Appointment(props) {
   function interviewCancellation(interview) {
     interview = null;
     transition(CONFIRM);
+  }
+  // Edits the interview and transitions modes as necessary
+   function edit(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+    transition(SAVING);
+    props
+      .editInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));  
   }
   //deletes interview
   function destroy() {
@@ -91,7 +102,7 @@ export default function Appointment(props) {
             interviewer={props.interview.interviewer.id}
             interviewers={props.interviewers}
             onCancel={() => transition(SHOW)}
-            onSave={save}
+            onSave={edit}
           />
         )}
         {mode === ERROR_SAVE && (
