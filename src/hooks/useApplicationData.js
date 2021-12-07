@@ -59,7 +59,7 @@ export default function useApplicationData () {
           days
         });
       })
-      .catch((err) => console.log(err));
+      
       
 
   };
@@ -86,7 +86,7 @@ export default function useApplicationData () {
           appointments,
         });
       })
-      .catch((err) => console.log(err));
+      
       
 
   };
@@ -112,7 +112,7 @@ export default function useApplicationData () {
         days
       });
     })
-    .catch((err) => console.log(err));
+    
     
   }
   //useEffect to pull data from server and change state  

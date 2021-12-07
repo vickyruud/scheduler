@@ -77,7 +77,8 @@ describe("Application", () => {
     //  2. Waits for data to be loaded
     await waitForElement(() => getByText(container, "Archie Cohen"));
     //  3. Clicks on the edit button on the interview for Archie Cohen
-    const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
+    const appointment = getAllByTestId(container, "appointment").find(appointment =>
+      queryByText(appointment, "Archie Cohen"));
     fireEvent.click(getByAltText(appointment, "Edit"));
     //  4. Changes the interviewer and submits
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
@@ -97,7 +98,7 @@ describe("Application", () => {
     const { container, debug } = render(<Application />);   
     //  2. Waits for data to be loaded
     await waitForElement(() => getByText(container, "Archie Cohen"));
-    //  3. Clicks on the add button int he first appointment component which is empty to add an interview
+    //  3. Clicks on the add button in the first appointment component which is empty to add an interview
     const appointment = getAllByTestId(container, "appointment")[0];
     fireEvent.click(getByAltText(appointment, "Add"));
     //  4. Enters Student name and selects interviewer
@@ -110,9 +111,43 @@ describe("Application", () => {
     fireEvent.click(getByText(appointment, "Save"));
    
     //  6. Wait for the error message
-    debug(appointment);
-    await waitForElement(() => getByText(appointment, "Could not Save"));
+    await waitForElement(() => getByText(appointment, "Could not save"));
     //  7. Keeps the spots remaining for Monday the same
-});
+      const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday"));
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+  });
+  it("shows the delete error when failing to delete an appointment", async () => {
+    axios.delete.mockRejectedValueOnce();
+     // 1. Render the Application.
+    const { container, debug } = render(<Application />)
+  // 2. Wait until the text "Archie Cohen" is displayed.
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+  // 3. Click the "Delete" button on the booked appointment.
+    const appointment = getAllByTestId(container, "appointment").find(appointment =>
+    queryByText(appointment, "Archie Cohen"));
+    
+    fireEvent.click(getByAltText(appointment, "Delete"));
+  // 4. Check that the confirmation message is shown.
+    
+    expect(getByText(appointment, "Are you sure you would like to delete this appointment?")).toBeInTheDocument();
+    
+  // 5. Click the "Confirm" button on the confirmation.
+    expect(getByText(appointment, "Confirm")).toBeInTheDocument();
+    fireEvent.click(getByText(appointment, "Confirm"));
+
+  // 6. Check that the element with the text "Deleting" is displayed.
+    expect(getByText(appointment, "Deleting")).toBeInTheDocument();
+    
+  // 7. Wait for the error message.
+    await waitForElement(() => getByText(appointment, "Could not delete"));
+
+  // 8. Check that the DayListItem with the text "Monday" also has the text "1 spot remaining".
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+  });
   
 });

@@ -20,9 +20,7 @@ export default function Appointment(props) {
   const EDIT = "EDIT";
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
-  // const ERROR_SAVE_NAME = "ERROR_SAVE_NAME";
   const ERROR_SAVE_INTERVIEWER = "ERROR_SAVE_INTERVIEWER";
-  // const ERROR_SAVE_NAME_INTERVIEWER = "ERROR_SAVE_NAME_INTERVIEWER";
 
   //import visual mode changes functions with default state as show or empty
   const { mode, transition, back } = useVisualMode(
@@ -64,7 +62,9 @@ export default function Appointment(props) {
     props
       .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch((error) => transition(ERROR_DELETE, true));
+      .catch((error) => {
+        transition(ERROR_DELETE, true)
+      });
   }
   //returns the appointment list with different view based on modes
   return (
