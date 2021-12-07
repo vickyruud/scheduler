@@ -112,8 +112,12 @@ describe("Application", () => {
    
     //  6. Wait for the error message
     await waitForElement(() => getByText(appointment, "Could not save"));
-    //  7. Keeps the spots remaining for Monday the same
-      const day = getAllByTestId(container, "day").find(day =>
+    // 7. Click on "Close Button"
+    fireEvent.click(getByAltText(container, "Close"));
+    // 8. Wait until the text "Archie Cohen" is displayed.
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    // 9. Keeps the spots remaining for Monday the same
+    const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday"));
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
@@ -141,13 +145,18 @@ describe("Application", () => {
     
   // 7. Wait for the error message.
     await waitForElement(() => getByText(appointment, "Could not delete"));
-
-  // 8. Check that the DayListItem with the text "Monday" also has the text "1 spot remaining".
+    // 8. Click on "Close Button"
+    fireEvent.click(getByAltText(container, "Close"));
+    // 9. Wait until the text "Archie Cohen" is displayed.
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    
+    // 10. Check that the DayListItem with the text "Monday" also has the text "1 spot remaining".
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
     );
-
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+
+   
   });
   
 });
